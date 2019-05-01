@@ -41,14 +41,14 @@ echo '>> Install kubeval...'
 wget https://github.com/garethr/kubeval/releases/download/0.7.3/kubeval-linux-amd64.tar.gz 
 tar xzvf kubeval-linux-amd64.tar.gz
 chmod u+x kubeval
-alias kubeval=/tmp/kubeval/bin/kubeval
+mv kubeval /usr/local/bin/
 
 echo '>> Installing Helm...'
 cd /tmp/helm/bin
 wget "https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 tar -zxf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 chmod +x linux-amd64/helm
-alias helm=/tmp/helm/bin/linux-amd64/helm
+mv linux-amd64/helm /usr/local/bin/
 helm version -c
 helm init -c
 helm plugin install https://github.com/lrills/helm-unittest
