@@ -35,7 +35,7 @@ mkdir -p /tmp/kubeval/bin
 mkdir -p /tmp/kubeval/manifests
 
 apk update
-apk add ca-certificates git openssh
+apk add ca-certificates git openssh bash
 
 echo '>> Install kubeval...'
 wget https://github.com/garethr/kubeval/releases/download/0.7.3/kubeval-linux-amd64.tar.gz 
