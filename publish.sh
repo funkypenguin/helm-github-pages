@@ -52,7 +52,13 @@ chmod +x linux-amd64/helm
 mv linux-amd64/helm /usr/local/bin/
 helm version -c
 helm init -c
-helm plugin install https://github.com/lrills/helm-unittest
+
+# Wrap this in a loop because it sometimes fails due to github's API limits
+until `helm plugin install https://github.com/lrills/helm-unittest`
+do
+  echo "API limit hit, retrying..."
+  sleep 5s
+done
 
 echo ">> Checking out $GITHUB_PAGES_BRANCH branch from $GITHUB_PAGES_REPO"
 mkdir -p /tmp/helm/publish
