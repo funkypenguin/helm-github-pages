@@ -26,6 +26,9 @@ echo "HELM_CHARTS_SOURCE=$HELM_CHARTS_SOURCE"
 echo "HELM_VERSION=$HELM_VERSION"
 echo "CIRCLE_BRANCH=$CIRCLE_BRANCH"
 
+apk update
+apk add ca-certificates git openssh
+
 echo ">> Checking out $GITHUB_PAGES_BRANCH branch from $GITHUB_PAGES_REPO"
 mkdir -p /tmp/helm/publish
 cd /tmp/helm/publish
