@@ -50,8 +50,8 @@ fi
 
 echo ">> Publishing to $GITHUB_PAGES_BRANCH branch of $GITHUB_PAGES_REPO"
 git config user.email "$CIRCLE_USERNAME@users.noreply.github.com"
-git config user.name "Travis CI"
+git config user.name "Circle CI"
 git add .
 git status
-git commit -m "Published by TravisCI $CIRCLE_BUILD_URL"
+git commit -m "Published by Circle CI $CIRCLE_BUILD_URL"
 git push origin "$GITHUB_PAGES_BRANCH"
