@@ -54,10 +54,14 @@ helm version -c
 helm init -c
 
 # Wrap this in a loop because it sometimes fails due to github's API limits
-until `helm plugin install https://github.com/lrills/helm-unittest`
-do
-  echo "API limit hit, retrying..."
-  sleep 5s
+n=0
+until [ $n -ge 5 ]
+do 
+  helm plugin install https://github.com/lrills/helm-unittest && break
+  echo "Helm plugin installe failed, probably hit GitHub API limit hit, retrying..."
+  rm -rf /root/.helm/plugins/helm-unittest 
+  n=$[$n+1]
+  sleep 15
 done
 
 echo ">> Checking out $GITHUB_PAGES_BRANCH branch from $GITHUB_PAGES_REPO"
