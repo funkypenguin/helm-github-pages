@@ -53,16 +53,7 @@ mv linux-amd64/helm /usr/local/bin/
 helm version -c
 helm init -c
 
-# Wrap this in a loop because it sometimes fails due to github's API limits
-n=0
-until [ $n -ge 5 ]
-do 
-  helm plugin install https://github.com/lrills/helm-unittest && break
-  echo "Helm plugin installe failed, probably hit GitHub API limit hit, retrying..."
-  rm -rf /root/.helm/plugins/helm-unittest 
-  n=$[$n+1]
-  sleep 15
-done
+helm plugin install https://github.com/lrills/helm-unittest
 
 echo ">> Checking out $GITHUB_PAGES_BRANCH branch from $GITHUB_PAGES_REPO"
 mkdir -p /tmp/helm/publish
