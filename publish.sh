@@ -15,6 +15,7 @@ WORKING_DIRECTORY="$PWD"
   exit 1
 }
 [ -z "$HELM_VERSION" ] && HELM_VERSION=2.13.1
+[ -z "$KUBERNETES_VERSION" ] && KUBERNETES_VERSION=1.14.0
 [ "$CIRCLE_BRANCH" ] || {
   echo "ERROR: Environment variable CIRCLE_BRANCH is required"
   exit 1
@@ -24,13 +25,23 @@ echo "GITHUB_PAGES_REPO=$GITHUB_PAGES_REPO"
 echo "GITHUB_PAGES_BRANCH=$GITHUB_PAGES_BRANCH"
 echo "HELM_CHARTS_SOURCE=$HELM_CHARTS_SOURCE"
 echo "HELM_VERSION=$HELM_VERSION"
+echo "KUBERNETES_VERSION=$KUBERNETES_VERSION"
 echo "CIRCLE_BRANCH=$CIRCLE_BRANCH"
 
 echo '>> Prepare...'
 mkdir -p /tmp/helm/bin
 mkdir -p /tmp/helm/publish
+mkdir -p /tmp/kubeval/bin
+mkdir -p /tmp/kubeval/manifests
+
 apk update
 apk add ca-certificates git openssh
+
+echo '>> Install kubeval...'
+wget https://github.com/garethr/kubeval/releases/download/0.7.3/kubeval-linux-amd64.tar.gz 
+tar xzvf kubeval-linux-amd64.tar.gz
+chmod u+x kubeval
+alias kubeval=/tmp/kubeval/bin/kubeval
 
 echo '>> Installing Helm...'
 cd /tmp/helm/bin
@@ -40,6 +51,7 @@ chmod +x linux-amd64/helm
 alias helm=/tmp/helm/bin/linux-amd64/helm
 helm version -c
 helm init -c
+helm plugin install https://github.com/lrills/helm-unittest
 
 echo ">> Checking out $GITHUB_PAGES_BRANCH branch from $GITHUB_PAGES_REPO"
 mkdir -p /tmp/helm/publish
@@ -50,6 +62,14 @@ git clone -b "$GITHUB_PAGES_BRANCH" "git@github.com:$GITHUB_PAGES_REPO.git" .
 
 echo '>> Building charts...'
 find "$HELM_CHARTS_SOURCE" -mindepth 1 -maxdepth 1 -type d | while read chart; do
+  echo ">>> helm lint $chart"
+  helm lint "$chart"
+
+  echo ">>> kubeval $chart"
+  mkdir -p "/tmp/kubeval/manifests/$chart_name"
+  helm template $chart --output-dir "/tmp/kubeval/manifests/$chart_name"
+  find "/tmp/kubeval/manifests/$chart_name" -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION  
+ 
   chart_name="`basename "$chart"`"
   echo ">>> helm package -d $chart_name $chart"
   mkdir -p "$chart_name"
