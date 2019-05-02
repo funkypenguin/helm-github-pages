@@ -75,8 +75,9 @@ find "$HELM_CHARTS_SOURCE" -mindepth 1 -maxdepth 1 -type d | while read chart; d
   find "/tmp/kubeval/manifests/$chart_name" -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION  
  
   echo ">>> unittest $chart"
+  
   helm unittest $chart 
-
+  $HELM_CHARTS_SOURCE/.circleci/prep-unit-tests.sh
   chart_name="`basename "$chart"`"
   echo ">>> helm package -d $chart_name $chart"
   mkdir -p "$chart_name"
