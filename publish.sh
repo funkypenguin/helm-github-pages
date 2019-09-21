@@ -71,6 +71,7 @@ find "$HELM_CHARTS_SOURCE" -mindepth 1 -maxdepth 1 -type d | while read chart; d
 
   echo ">>> kubeval $chart"
   mkdir -p "/tmp/kubeval/manifests/$chart_name"
+  helm dep update $chart_name
   helm template $chart --output-dir "/tmp/kubeval/manifests/$chart_name"
   find "/tmp/kubeval/manifests/$chart_name" -name '*.yaml' | grep -v crd | xargs kubeval -v $KUBERNETES_VERSION  
  
