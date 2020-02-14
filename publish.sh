@@ -14,8 +14,8 @@ WORKING_DIRECTORY="$PWD"
   echo "ERROR: Could not find Helm chart in $HELM_CHARTS_SOURCE"
   exit 1
 }
-[ -z "$HELM_VERSION" ] && HELM_VERSION=2.13.1
-[ -z "$KUBEVAL_VERSION" ] && KUBEVAL_VERSION=0.7.3
+[ -z "$HELM_VERSION" ] && HELM_VERSION=3.1.0
+[ -z "$KUBEVAL_VERSION" ] && KUBEVAL_VERSION=0.14.0
 [ -z "$KUBERNETES_VERSION" ] && KUBERNETES_VERSION=1.14.0
 [ "$CIRCLE_BRANCH" ] || {
   echo "ERROR: Environment variable CIRCLE_BRANCH is required"
