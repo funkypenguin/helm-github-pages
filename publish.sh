@@ -14,9 +14,9 @@ WORKING_DIRECTORY="$PWD"
   echo "ERROR: Could not find Helm chart in $HELM_CHARTS_SOURCE"
   exit 1
 }
-[ -z "$HELM_VERSION" ] && HELM_VERSION=3.0.2
+[ -z "$HELM_VERSION" ] && HELM_VERSION=3.1.0
 [ -z "$KUBEVAL_VERSION" ] && KUBEVAL_VERSION=0.14.0
-[ -z "$KUBERNETES_VERSION" ] && KUBERNETES_VERSION=1.14.0
+[ -z "$KUBERNETES_VERSION" ] && KUBERNETES_VERSION=1.16.0
 [ "$CIRCLE_BRANCH" ] || {
   echo "ERROR: Environment variable CIRCLE_BRANCH is required"
   exit 1
@@ -42,7 +42,7 @@ apk add ca-certificates git openssh bash curl
 
 echo '>> Installing Helm...'
 cd /tmp/helm/bin
-wget "https://storage.googleapis.com/kubernetes-helm/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
+wget "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz
 tar -zxf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 chmod +x linux-amd64/helm
 mv linux-amd64/helm /usr/local/bin/
