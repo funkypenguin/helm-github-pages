@@ -42,7 +42,7 @@ apk add ca-certificates git openssh bash curl
 
 echo '>> Installing Helm...'
 cd /tmp/helm/bin
-wget "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz
+wget "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 tar -zxf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 chmod +x linux-amd64/helm
 mv linux-amd64/helm /usr/local/bin/
