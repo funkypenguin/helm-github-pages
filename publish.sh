@@ -46,7 +46,7 @@ wget "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 tar -zxf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 chmod +x linux-amd64/helm
 mv linux-amd64/helm /usr/local/bin/
-helm plugin install https://github.com/lrills/helm-unittest
+# helm plugin install https://github.com/lrills/helm-unittest
 
 echo '>> Installing kubeval...'
 wget https://github.com/garethr/kubeval/releases/download/${KUBEVAL_VERSION}/kubeval-linux-amd64.tar.gz 
@@ -74,9 +74,9 @@ find "$HELM_CHARTS_SOURCE" -mindepth 1 -maxdepth 1 -type d | while read chart; d
   helm template $chart --output-dir "/tmp/kubeval/manifests/$chart_name"
   kubeval -d "/tmp/kubeval/manifests/$chart_name"
  
-  echo ">>> unittest $chart"
-  /root/project/.circleci/prep-unit-tests.sh  
-  helm unittest $chart 
+  #echo ">>> unittest $chart"
+  #/root/project/.circleci/prep-unit-tests.sh  
+  #helm unittest $chart 
 
   chart_name="`basename "$chart"`"
   echo ">>> helm package -d $chart_name $chart"
