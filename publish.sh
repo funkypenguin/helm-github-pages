@@ -46,8 +46,6 @@ wget "https://get.helm.sh/helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 tar -zxf "helm-v${HELM_VERSION}-linux-amd64.tar.gz"
 chmod +x linux-amd64/helm
 mv linux-amd64/helm /usr/local/bin/
-helm version -c
-helm init -c
 helm plugin install https://github.com/lrills/helm-unittest
 
 echo '>> Installing kubeval...'
