@@ -70,6 +70,7 @@ find "$HELM_CHARTS_SOURCE" -mindepth 1 -maxdepth 1 -type d | while read chart; d
   helm lint "$chart"
 
   echo ">>> kubeval $chart"
+  /root/project/.circleci/prep-kubeval.sh
   mkdir -p "/tmp/kubeval/manifests/$chart_name"
   helm dep update $chart
   helm template $chart --output-dir "/tmp/kubeval/manifests/$chart_name"
