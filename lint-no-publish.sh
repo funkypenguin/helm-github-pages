@@ -5,7 +5,7 @@ set -o pipefail
 WORKING_DIRECTORY="$PWD"
 
 [ -z "$GITHUB_PAGES_BRANCH" ] && GITHUB_PAGES_BRANCH=gh-pages
-[ -z "$HELM_CHARTS_SOURCE" ] && HELM_CHARTS_SOURCE="$WORKING_DIRECTORY/helm-chart"
+[ -z "$HELM_CHARTS_SOURCE" ] && HELM_CHARTS_SOURCE="$WORKING_DIRECTORY/charts"
 [ -d "$HELM_CHARTS_SOURCE" ] || {
   echo "ERROR: Could not find Helm chart in $HELM_CHARTS_SOURCE"
   exit 1
